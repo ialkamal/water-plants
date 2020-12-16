@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import LogIn from "./components/LogIn";
 import Navbar from "./components/Navbar";
 import SignUp from "./components/SignUp";
@@ -9,8 +9,10 @@ function App() {
     <div className="App">
       <h1>Welcome to Water My Plants App</h1>
       <Navbar />
-      <Route path="/" component={LogIn} />
-      <Route path="/signup" component={SignUp} />
+      <Switch>
+        <Route exact path="/" component={LogIn} />
+        <Route path="/signup" component={SignUp} />
+      </Switch>
     </div>
   );
 }
