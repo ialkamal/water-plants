@@ -42,7 +42,7 @@ const Input = styled.input.attrs(props => ({
   border: 2px solid black;
    padding: 0.5em;
   margin: 0.5em;
-  color: ${props => props.inputColor || "palevioletred"};
+  color: ${props => props.inputColor || "black"};
   background: #9cc799;
   border: none;
   border-radius: 3px;
@@ -54,7 +54,7 @@ const PasswordInput = styled(Input).attrs({
   border: 2px solid black;
    padding: 0.5em;
   margin: 0.5em;
-  color: ${props => props.inputColor || "palevioletred"};
+  color: ${props => props.inputColor || "black"};
   background: #9cc799;
   border: none;
   border-radius: 3px;
