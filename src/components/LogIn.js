@@ -25,7 +25,9 @@ const defaultErrorState = {
 }
 
 
+
 const FormContainer = styled.div`
+margin-top:9rem;
   `
 const Form = styled.div`
  `
@@ -124,9 +126,9 @@ function LoginForm() {
         </FormGroup>
         <Button disabled={isDisabled} className='btn-lg btn-block' type='submit' name='submit' color="success">
           Login
-                </Button>
+        </Button>
         <div className='text-center pt-3'>Don't have an account?<br></br>
-                    <a href='/SignUp'> Sign Up</a>
+          <a href='/SignUp' style={{textDecoration:'none' }}> Sign Up</a>
         </div>
       </Form>
     </FormContainer>
