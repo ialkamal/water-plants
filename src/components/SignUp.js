@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import * as Yup from 'yup'
+import 'yup-phone'
+import axios from 'axios'
 
 const SignUp = () => {
   const initialCredentials = {
@@ -7,11 +10,34 @@ const SignUp = () => {
     password: "",
   };
 
+
   const [credentials, setCredentials] = useState(initialCredentials);
+  const [disabled,setDisabled]=useState(true);
+
+
+  const schema = Yup.object().shape({
+    username: Yup
+              .string()
+              .email('Must be valid Email address').required(),
+    phoneNumber: Yup
+              .string()
+              .matches(/^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/, '')
+              .required('This field is required'),
+    password: Yup
+              .string()
+              .min( 6, 'Must be a minimum of 6 characters')
+              .required('This field is required')
+  }
+  );
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
+
+  useEffect(()=>{
+    schema.isValid(credentials).then(valid=>setDisabled(!valid))
+    
+  },[credentials])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +58,7 @@ const SignUp = () => {
           onChange={handleChange}
         />
         <input
-          type="text"
+          type="tel"
           name="phoneNumber"
           autoComplete="phone-number"
           value={credentials.phoneNumber}
@@ -47,7 +73,7 @@ const SignUp = () => {
           placeholder="password"
           onChange={handleChange}
         />
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={disabled}>Sign Up</button>
       </form>
     </div>
   );
