@@ -2,10 +2,13 @@ import "./App.css";
 import { Route, Switch, NavLink } from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
 import Plants from "./protected/Plants";
+import PlantDetails from "./protected/PlantDetails";
+import AddPlant from "./protected/AddPlant";
 import UserProfile from "./protected/UserProfile";
 import LogIn from "./components/LogIn";
 import Navbar from "./components/Navbar";
 import SignUp from "./components/SignUp";
+import EditPlant from "./protected/EditPlant";
 
 function App() {
   return (
@@ -17,7 +20,10 @@ function App() {
       <Switch>
         <Route exact path="/" component={LogIn} />
         <Route path="/signup" component={SignUp} />
-        <PrivateRoute path="/plants" component={Plants} />
+        <PrivateRoute exact path="/plants" component={Plants} />
+        <PrivateRoute exact path="/plants/add" component={AddPlant} />
+        <PrivateRoute exact path="/plants/:id" component={PlantDetails} />
+        <PrivateRoute exact path="/plants/:id/edit" component={EditPlant} />
         <PrivateRoute path="/profile" component={UserProfile} />
       </Switch>
     </div>
