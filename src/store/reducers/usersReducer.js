@@ -7,6 +7,11 @@ const initialState = {
 
 export function usersReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_PROFILE:
+      return {
+        ...state,
+        user: action.payload,
+      };
     case LOGIN_USER:
       return {
         ...state,

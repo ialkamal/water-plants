@@ -22,7 +22,15 @@ export const logout = () => {
   };
 };
 
-export const getProfile = () => {};
+export const getProfile = () => {
+  return (dispatch) => {
+    //use axiosWithAuth for endpoint once done
+    axios
+      .get("https://reqres.in/api/users/2")
+      .then((res) => dispatch({ type: GET_PROFILE, payload: res.data.data }))
+      .catch((err) => console.log(err));
+  };
+};
 
 export const editProfile = () => {};
 
@@ -43,11 +51,11 @@ export const deletePlant = () => {};
 export const editPlant = () => {};
 
 export const getPlant = (id) => {
-    return (dispatch) => {
-      //use axiosWithAuth for endpoint once done
-      axios
-        .get(`https://reqres.in/api/unknown/${id}`)
-        .then((res) => dispatch({ type: GET_PLANT, payload: res.data.data }))
-        .catch((err) => console.log(err));
-    };
+  return (dispatch) => {
+    //use axiosWithAuth for endpoint once done
+    axios
+      .get(`https://reqres.in/api/unknown/${id}`)
+      .then((res) => dispatch({ type: GET_PLANT, payload: res.data.data }))
+      .catch((err) => console.log(err));
   };
+};

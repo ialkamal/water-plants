@@ -17,10 +17,12 @@ const Plants = (props) => {
       <NavLink to="/plants/add">Add Plant</NavLink>
 
       {props.plants.map((plant) => (
-        <NavLink to={`/plants/${plant.id}`} key={plant.id}>
-          <pre>{JSON.stringify(plant, null, 2)}</pre>
+        <div key={plant.id}>
+          <NavLink to={`/plants/${plant.id}`}>
+            <pre>{JSON.stringify(plant, null, 2)}</pre>
+          </NavLink>
           <button onClick={handleDelete}>x</button>
-        </NavLink>
+        </div>
       ))}
     </div>
   );

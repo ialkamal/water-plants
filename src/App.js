@@ -5,6 +5,7 @@ import Plants from "./protected/Plants";
 import PlantDetails from "./protected/PlantDetails";
 import AddPlant from "./protected/AddPlant";
 import UserProfile from "./protected/UserProfile";
+import EditProfile from "./protected/EditProfile";
 import LogIn from "./components/LogIn";
 import Navbar from "./components/Navbar";
 import SignUp from "./components/SignUp";
@@ -24,7 +25,8 @@ function App() {
         <PrivateRoute exact path="/plants/add" component={AddPlant} />
         <PrivateRoute exact path="/plants/:id" component={PlantDetails} />
         <PrivateRoute exact path="/plants/:id/edit" component={EditPlant} />
-        <PrivateRoute path="/profile" component={UserProfile} />
+        <PrivateRoute exact path="/profile" component={UserProfile} />
+        <PrivateRoute exact path="/profile/edit" component={EditProfile} />
       </Switch>
     </div>
   );
