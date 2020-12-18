@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import axiosWithAuth from "../utils/axiosWithAuth";
+import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const initialCredentials = {
     username: "",
-    phoneNumber: "",
+    phone: "",
     password: "",
   };
+
+  const history = useHistory();
 
   const [credentials, setCredentials] = useState(initialCredentials);
 
@@ -15,7 +19,15 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //handle sending credentials to server and getting the token
+    //handle sending credentials to server
+    axiosWithAuth()
+      .post("/api/users/register", credentials)
+      .then((res) => {
+        console.log(res.data);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
+
     setCredentials(initialCredentials);
   };
 
@@ -33,9 +45,9 @@ const SignUp = () => {
         />
         <input
           type="text"
-          name="phoneNumber"
+          name="phone"
           autoComplete="phone-number"
-          value={credentials.phoneNumber}
+          value={credentials.phone}
           placeholder="phone number"
           onChange={handleChange}
         />

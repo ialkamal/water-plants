@@ -1,21 +1,34 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import axiosWithAuth from "../utils/axiosWithAuth";
+import { login } from "../store/actions";
 
-const LogIn = () => {
+const LogIn = (props) => {
   const initialCredentials = {
     username: "",
     password: "",
   };
 
+  const history = useHistory();
   const [credentials, setCredentials] = useState(initialCredentials);
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     //handle sending credentials to server and getting the token
-    setCredentials(initialCredentials);
+    axiosWithAuth()
+      .post("/api/users/login", credentials)
+      .then((res) => {
+        window.localStorage.setItem("token", res.data.token);
+        props.login(credentials);
+        setCredentials(initialCredentials);
+        history.push("/plants");
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -44,4 +57,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default connect(null, { login })(LogIn);
