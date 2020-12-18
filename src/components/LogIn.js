@@ -1,8 +1,8 @@
 import React, { useState, useEffect} from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import * as yup from 'yup';
 import { useHistory} from 'react-router-dom'
+import axiosWithAuth from '../utils/axiosWithAuth';
 
 
 const schema = yup.object().shape({
@@ -11,7 +11,7 @@ const schema = yup.object().shape({
     .min(2),
   password: yup.string()
     .required('Please enter password.')
-    .min(6)
+    .min(4)
 })
 
 const defaultFormState = {
@@ -52,6 +52,7 @@ const Input = styled.input.attrs(props => ({
 
 const PasswordInput = styled(Input).attrs({
   type: "password",
+  
 })`
   border: 2px solid black;
    padding: 0.5em;
@@ -69,17 +70,23 @@ const Button = styled.button`
   padding: 0.25em 1em;
   border-radius: 3px
  `
-
+const initialCredentials = {
+    username: "",
+    password: "",
+  };
 function LoginForm() {
 
   const [formState, setFormState] = useState(defaultFormState);
   const [errors, setErrors] = useState(defaultErrorState);
   const [isDisabled, setIsDisabled] = useState(true);
   const history = useHistory();
+  const [credentials, setCredentials] = useState(initialCredentials);
 
   useEffect(() => {
     schema.isValid(formState).then(valid => setIsDisabled(!valid));
   }, [formState])
+
+  
 
   const validate = e => {
     e.persist();
@@ -88,17 +95,21 @@ function LoginForm() {
       .catch(err => setErrors({ ...errors, [e.target.name]: err.errors[0] }));
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log('form Submitted:', formState);
-    axios.post("https://water-my-plants-lambda.herokuapp.com/", formState)
-      .then(res => {
-        console.log('res:', res.data);
-        setFormState(defaultFormState);
-        history.push('/')
-      })
-      .catch(err => console.log(err));
+    console.log('Logged In', formState);
+    axiosWithAuth()
+    .post("/api/users/login", credentials)
+    .then((res) => {
+      window.localStorage.setItem("token", res.data.token);
+      
+      setCredentials(initialCredentials);
+      history.push("/plants")
+          })
+          .catch((err) => console.log(err));
+
   }
+
   const handleChange = e => {
     setFormState({
       ...formState,
@@ -127,7 +138,8 @@ function LoginForm() {
         <Button disabled={isDisabled} className='btn-lg btn-block' type='submit' name='submit' color="success">
           Login
         </Button>
-        <div className='text-center pt-3'>Don't have an account?<br></br>
+        <div className='text-center pt-3'>Don't have an account?
+        <br></br>
           <a href='/SignUp' style={{textDecoration:'none' }}> Sign Up</a>
         </div>
       </Form>
