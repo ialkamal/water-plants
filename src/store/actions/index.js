@@ -5,6 +5,7 @@ export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const GET_PROFILE = "GET_PROFILE";
 export const EDIT_PROFILE = "EDIT_PROFILE";
+export const EDIT_PASSWORD = "EDIT_PASSWORD";
 export const GET_PLANTS = "GET_PLANTS";
 export const ADD_PLANT = "ADD_PLANT";
 export const EDIT_PLANT = "EDIT_PLANT";
@@ -16,7 +17,7 @@ export const login = (user) => {
 };
 
 export const logout = () => {
-  window.localStorage.removeItem("token");
+  window.localStorage.clear();
   return {
     type: LOGOUT_USER,
   };
@@ -24,15 +25,30 @@ export const logout = () => {
 
 export const getProfile = () => {
   return (dispatch) => {
-    //use axiosWithAuth for endpoint once done
-    axios
-      .get("https://reqres.in/api/users/2")
-      .then((res) => dispatch({ type: GET_PROFILE, payload: res.data.data }))
+    axiosWithAuth()
+      .get("/api/users")
+      .then((res) => dispatch({ type: GET_PROFILE, payload: res.data }))
       .catch((err) => console.log(err));
   };
 };
 
-export const editProfile = () => {};
+export const editProfile = (phoneValue) => {
+  return (dispatch) => {
+    axiosWithAuth()
+      .put("/api/users/phone", { phone: phoneValue })
+      .then((res) => console.log(res.data.message))
+      .catch((err) => console.log(err));
+  };
+};
+
+export const editPassword = (password) => {
+  return (dispatch) => {
+    axiosWithAuth()
+      .put("/api/users/password", password)
+      .then((res) => console.log(res.message))
+      .catch((err) => console.log(err));
+  };
+};
 
 export const getPlants = () => {
   return (dispatch) => {

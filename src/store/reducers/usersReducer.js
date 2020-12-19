@@ -8,6 +8,11 @@ const initialState = {
 export function usersReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PROFILE:
+      if (!window.localStorage.getItem("user"))
+        window.localStorage.setItem(
+          "user",
+          JSON.stringify(action.payload, null, 2)
+        );
       return {
         ...state,
         user: action.payload,

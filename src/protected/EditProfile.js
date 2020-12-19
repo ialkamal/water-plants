@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { editProfile, getProfile } from "../store/actions";
+import { editProfile, editPassword, getProfile } from "../store/actions";
 
 const EditProfile = (props) => {
-  const [user, setUser] = useState(props.user);
+  const initialPassword = {
+    oldPassword: "",
+    password: "",
+  };
+
+  const initialUser = JSON.parse(window.localStorage.getItem("user"));
+
+  const [user, setUser] = useState(initialUser);
+  const [password, setPassword] = useState(initialPassword);
 
   const history = useHistory();
 
@@ -13,13 +21,23 @@ const EditProfile = (props) => {
     history.goBack();
   };
 
-  const handleChange = (e) => {
+  const handleProfileChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword({ ...password, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //save to the server
+    props.editProfile(user.phone);
+    if (password.oldPassword !== "" && password.password !== "") {
+      props.editPassword(password);
+      setPassword(initialPassword);
+    }
+    setUser(initialUser);
     history.goBack();
   };
 
@@ -31,25 +49,33 @@ const EditProfile = (props) => {
         <input
           type="text"
           id="username"
-          name="email"
+          name="username"
           disabled={true}
-          value={user.email}
+          value={user.username}
         />
         <label htmlFor="phone">Phone</label>
         <input
           type="text"
           id="phone"
-          name="first_name"
-          value={user.first_name}
-          onChange={handleChange}
+          name="phone"
+          value={user.phone}
+          onChange={handleProfileChange}
         />
-        <label htmlFor="password">Password</label>
+        <label htmlFor="old-password">Old Password</label>
         <input
           type="password"
-          id="password"
-          name="last_name"
-          value={user.last_name}
-          onChange={handleChange}
+          id="old-password"
+          name="oldPassword"
+          value={password.oldPassword}
+          onChange={handlePasswordChange}
+        />
+        <label htmlFor="new-password">New Password</label>
+        <input
+          type="password"
+          id="new-password"
+          name="password"
+          value={password.password}
+          onChange={handlePasswordChange}
         />
 
         <button type="submit">Save</button>
@@ -65,6 +91,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { editProfile, getProfile })(
-  EditProfile
-);
+export default connect(mapStateToProps, {
+  editProfile,
+  editPassword,
+  getProfile,
+})(EditProfile);
