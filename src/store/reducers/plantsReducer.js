@@ -23,6 +23,12 @@ export function plantsReducer(state = initialState, action) {
         ...state,
         plant: action.payload,
       };
+    case ADD_PLANT:
+      console.log("NEW PLANT: ", action.payload);
+      return {
+        ...state,
+        plants: [...state.plants, action.payload],
+      };
     default:
       return state;
   }

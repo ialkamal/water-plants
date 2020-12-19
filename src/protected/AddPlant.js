@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { editPlant } from "../store/actions";
+import { editPlant, addPlant } from "../store/actions";
 
 const AddPlant = (props) => {
   const initialState = {
-    name: "",
-    year: "",
-    color: "",
-    pantone_value: "",
+    nickname: "",
+    binomial: "",
+    water_frequency: "",
+    image: "",
   };
 
   const [plant, setPlant] = useState(initialState);
@@ -27,7 +27,9 @@ const AddPlant = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //save to the server
-    history.goBack();
+    props.addPlant(plant);
+    setPlant(initialState);
+    history.push("/plants");
   };
 
   return (
@@ -38,32 +40,32 @@ const AddPlant = (props) => {
         <input
           type="text"
           id="nickname"
-          name="name"
-          value={plant.name}
+          name="nickname"
+          value={plant.nickname}
           onChange={handleChange}
         />
-        <label htmlFor="species">Species</label>
+        <label htmlFor="binomial">Binomial</label>
         <input
           type="text"
-          id="species"
-          name="year"
-          value={plant.year}
+          id="binomial"
+          name="binomial"
+          value={plant.binomial}
           onChange={handleChange}
         />
-        <label htmlFor="h2ofrequency">H20 Frequency</label>
+        <label htmlFor="water_frequency">Water Frequency</label>
         <input
           type="text"
-          id="h2ofrequency"
-          name="color"
-          value={plant.color}
+          id="water_frequency"
+          name="water_frequency"
+          value={plant.water_frequency}
           onChange={handleChange}
         />
-        <label htmlFor="image">Image URL</label>
+        <label htmlFor="image">Image</label>
         <input
           type="text"
           id="image"
-          name="pantone_value"
-          value={plant.pantone_value}
+          name="image"
+          value={plant.image}
           onChange={handleChange}
         />
         <button type="submit">Add</button>
@@ -79,4 +81,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { editPlant })(AddPlant);
+export default connect(mapStateToProps, { editPlant, addPlant })(AddPlant);

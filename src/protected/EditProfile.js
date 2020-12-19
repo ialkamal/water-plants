@@ -38,7 +38,7 @@ const EditProfile = (props) => {
       setPassword(initialPassword);
     }
     setUser(initialUser);
-    history.goBack();
+    history.push("/profile");
   };
 
   return (

@@ -45,7 +45,7 @@ export const editPassword = (password) => {
   return (dispatch) => {
     axiosWithAuth()
       .put("/api/users/password", password)
-      .then((res) => console.log(res.message))
+      .then((res) => console.log(res.data.message))
       .catch((err) => console.log(err));
   };
 };
@@ -53,14 +53,27 @@ export const editPassword = (password) => {
 export const getPlants = () => {
   return (dispatch) => {
     //use axiosWithAuth for endpoint once done
-    axios
-      .get("https://reqres.in/api/unknown")
-      .then((res) => dispatch({ type: GET_PLANTS, payload: res.data.data }))
+    axiosWithAuth()
+      .get("/api/plants")
+      .then((res) => dispatch({ type: GET_PLANTS, payload: res.data.plants }))
       .catch((err) => console.log(err));
   };
 };
 
-export const addPlant = () => {};
+export const addPlant = (plant) => {
+  return (dispatch) => {
+    //use axiosWithAuth for endpoint once done
+    axiosWithAuth()
+      .post("/api/plants", plant)
+      .then((res) =>
+        dispatch({
+          type: ADD_PLANT,
+          payload: { ...plant, id: res.data.newPlantId },
+        })
+      )
+      .catch((err) => console.log(err));
+  };
+};
 
 export const deletePlant = () => {};
 
