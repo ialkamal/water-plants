@@ -19,10 +19,7 @@ const EditPlant = (props) => {
   const handleChange = (e) => {
     setPlant({
       ...plant,
-      [e.target.name]:
-        e.target.name === "water_frequency"
-          ? Number(e.target.value)
-          : e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
