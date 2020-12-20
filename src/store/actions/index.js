@@ -1,5 +1,4 @@
 import axiosWithAuth from "../../utils/axiosWithAuth";
-import axios from "axios";
 
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
@@ -65,26 +64,43 @@ export const addPlant = (plant) => {
     //use axiosWithAuth for endpoint once done
     axiosWithAuth()
       .post("/api/plants", plant)
-      .then((res) =>
-        dispatch({
-          type: ADD_PLANT,
-          payload: { ...plant, id: res.data.newPlantId },
-        })
+      .then(
+        (res) => console.log(res)
+        // dispatch({
+        //   type: ADD_PLANT,
+        //   payload: { ...plant, id: res.data.newPlantId },
+        // })
       )
       .catch((err) => console.log(err));
   };
 };
 
-export const deletePlant = () => {};
+export const deletePlant = (id) => {
+  console.log("DELETE");
+  return (dispatch) => {
+    //use axiosWithAuth for endpoint once done
+    axiosWithAuth()
+      .delete(`/api/plants/${id}`)
+      .then((res) => dispatch({ type: DELETE_PLANT, payload: id }))
+      .catch((err) => console.log(err));
+  };
+};
 
-export const editPlant = () => {};
+export const editPlant = (plant) => {
+  return (dispatch) => {
+    axiosWithAuth()
+      .put(`/api/plants/${plant.id}`, plant)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+};
 
 export const getPlant = (id) => {
   return (dispatch) => {
     //use axiosWithAuth for endpoint once done
-    axios
-      .get(`https://reqres.in/api/unknown/${id}`)
-      .then((res) => dispatch({ type: GET_PLANT, payload: res.data.data }))
+    axiosWithAuth()
+      .get(`/api/plants/${id}`)
+      .then((res) => dispatch({ type: GET_PLANT, payload: res.data.plant }))
       .catch((err) => console.log(err));
   };
 };

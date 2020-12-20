@@ -19,15 +19,21 @@ export function plantsReducer(state = initialState, action) {
         plants: action.payload,
       };
     case GET_PLANT:
+      window.localStorage.setItem(
+        "plant",
+        JSON.stringify(action.payload, null, 2)
+      );
       return {
         ...state,
         plant: action.payload,
       };
     case ADD_PLANT:
       console.log("NEW PLANT: ", action.payload);
+      return state;
+    case DELETE_PLANT:
       return {
         ...state,
-        plants: [...state.plants, action.payload],
+        plants: state.plants.filter((plant) => plant.id !== action.payload),
       };
     default:
       return state;

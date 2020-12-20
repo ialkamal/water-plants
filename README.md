@@ -31,5 +31,5 @@ With an easy to use interface for creating a plant watering schedule tailored to
 
 ## Repos:
 
-Frontend: https://github.com/ialkamal/water-plants
-Backend: https://github.com/kevinstonge/water-my-plants
+- Frontend: https://github.com/ialkamal/water-plants
+- Backend: https://github.com/kevinstonge/water-my-plants

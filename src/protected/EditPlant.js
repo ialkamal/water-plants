@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { editPlant } from "../store/actions";
 
 const EditPlant = (props) => {
-  const [plant, setPlant] = useState(props.plant);
+  const initialPlant = JSON.parse(window.localStorage.getItem("plant"));
+
+  const [plant, setPlant] = useState(initialPlant);
 
   const history = useHistory();
+  const { id } = useParams();
 
   const handleCancel = (e) => {
     e.preventDefault();
@@ -14,13 +17,21 @@ const EditPlant = (props) => {
   };
 
   const handleChange = (e) => {
-    setPlant({ ...plant, [e.target.name]: e.target.value });
+    setPlant({
+      ...plant,
+      [e.target.name]:
+        e.target.name === "water_frequency"
+          ? Number(e.target.value)
+          : e.target.value,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //save to the server
-    history.goBack();
+    props.editPlant(plant);
+    //setPlant();
+    history.push(`/plants/${id}`);
   };
 
   return (
@@ -31,32 +42,32 @@ const EditPlant = (props) => {
         <input
           type="text"
           id="nickname"
-          name="name"
-          value={plant.name}
+          name="nickname"
+          value={plant.nickname}
           onChange={handleChange}
         />
-        <label htmlFor="species">Species</label>
+        <label htmlFor="binomial">Binomial</label>
         <input
           type="text"
-          id="species"
-          name="year"
-          value={plant.year}
+          id="binomial"
+          name="binomial"
+          value={plant.binomial}
           onChange={handleChange}
         />
-        <label htmlFor="h2ofrequency">H20 Frequency</label>
+        <label htmlFor="water_frequency">Water Frequency</label>
         <input
           type="text"
-          id="h2ofrequency"
-          name="color"
-          value={plant.color}
+          id="water_frequency"
+          name="water_frequency"
+          value={plant.water_frequency}
           onChange={handleChange}
         />
         <label htmlFor="image">Image URL</label>
         <input
           type="text"
           id="image"
-          name="pantone_value"
-          value={plant.pantone_value}
+          name="image"
+          value={plant.image}
           onChange={handleChange}
         />
         <button type="submit">Save</button>

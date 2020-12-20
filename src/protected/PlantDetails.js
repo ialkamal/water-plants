@@ -16,7 +16,7 @@ const PlantDetails = (props) => {
       <h2>Plant Details</h2>
       <pre>{JSON.stringify(props.plant, null, 2)}</pre>
       <button onClick={() => history.push(`/plants/${id}/edit`)}>Edit</button>
-      <button onClick={() => history.goBack()}>Back</button>
+      <button onClick={() => history.push("/plants")}>Back</button>
     </div>
   );
 };

@@ -8,7 +8,9 @@ const Plants = (props) => {
     props.getPlants();
   }, []);
 
-  const handleDelete = (id) => {};
+  const handleDelete = (id) => {
+    props.deletePlant(id);
+  };
 
   return (
     <div>
@@ -21,7 +23,7 @@ const Plants = (props) => {
           <NavLink to={`/plants/${plant.id}`}>
             <pre>{JSON.stringify(plant, null, 2)}</pre>
           </NavLink>
-          <button onClick={handleDelete}>x</button>
+          <button onClick={() => handleDelete(plant.id)}>x</button>
         </div>
       ))}
     </div>
