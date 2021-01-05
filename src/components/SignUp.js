@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import * as Yup from 'yup'
 import axios from 'axios'
@@ -61,14 +62,23 @@ font-weight: 800;;
 
 }
 `
+=======
+import React, { useState } from "react";
+import axiosWithAuth from "../utils/axiosWithAuth";
+import { useHistory } from "react-router-dom";
+>>>>>>> 2673ba3a4d60ddcc9fc64d44294f07be8f322115
 
 const SignUp = () => {
   const initialCredentials = {
     username: "",
-    phoneNumber: "",
+    phone: "",
     password: "",
   };
 
+<<<<<<< HEAD
+=======
+  const history = useHistory();
+>>>>>>> 2673ba3a4d60ddcc9fc64d44294f07be8f322115
 
   const [credentials, setCredentials] = useState(initialCredentials);
   const [disabled,setDisabled]=useState(true);
@@ -100,11 +110,23 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     axios
       .post("https://water-my-plants-lambda.herokuapp.com/api/register", credentials)
       .then(res => {console.log("success", credentials, res);
       })
       .catch(err => console.log(err))
+=======
+    //handle sending credentials to server
+    axiosWithAuth()
+      .post("/api/users/register", credentials)
+      .then((res) => {
+        console.log(res.data);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
+
+>>>>>>> 2673ba3a4d60ddcc9fc64d44294f07be8f322115
     setCredentials(initialCredentials);
   };
 
@@ -125,12 +147,21 @@ const SignUp = () => {
           placeholder="email"
           onChange={handleChange}
         />
+<<<<<<< HEAD
         <StyledInput
           type="tel"
           name="phoneNumber"
           autoComplete="phone-number"
           value={credentials.phoneNumber}
           placeholder="phone ex: 123-456-7890"
+=======
+        <input
+          type="text"
+          name="phone"
+          autoComplete="phone-number"
+          value={credentials.phone}
+          placeholder="phone number"
+>>>>>>> 2673ba3a4d60ddcc9fc64d44294f07be8f322115
           onChange={handleChange}
         />
         <StyledInput
