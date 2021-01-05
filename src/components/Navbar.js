@@ -5,8 +5,12 @@ import styled from 'styled-components';
 const NavBar = props => {
   return (
     <Navigation>
-      <Link to='/'>Water My Plants</Link>
-      <Link to='/form'>Sign Up</Link>
+      <Link to="/">Log In</Link>
+      <Link to="/" onClick={handleLogout}>
+        Log Out
+      </Link>
+      <Link to="/signup">Sign Up</Link>
+      <Link to="/profile">Profile</Link>
     </Navigation>
   );
 }

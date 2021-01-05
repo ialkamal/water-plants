@@ -84,41 +84,35 @@ function LoginForm() {
 
   useEffect(() => {
     schema.isValid(formState).then(valid => setIsDisabled(!valid));
-  }, [formState])
+  }, [setFormState])
 
   
 
   const validate = e => {
     e.persist();
     yup.reach(schema, e.target.name).validate(e.target.value)
-      .then(valid => setErrors({ ...errors, [e.target.name]: '' }))
+      .then(validate => setErrors({ ...errors, [e.target.name]: '' }))
       .catch(err => setErrors({ ...errors, [e.target.name]: err.errors[0] }));
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Logged In', formState);
+    console.log(this.state);
     axiosWithAuth()
-    .post("/api/users/login", credentials)
-    .then((res) => {
-      window.localStorage.setItem("token", res.data.token);
-      
-      setCredentials(initialCredentials);
-      history.push("/plants")
-          })
-          .catch((err) => console.log(err));
+      .post("/api/users/login", credentials)
+      .then((res) => {
+        window.localStorage.setItem("token", res.data.token);
+        initialCredentials.login(credentials);
+        setCredentials(initialCredentials);
+        history.push("/plants");
+      })
+      .catch((err) => console.log(err));
+  };
 
-  }
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
 
-  const handleChange = e => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value
-    })
-    if (e.target.name === 'username' || e.target.name === 'password') {
-      validate(e);
-    }
-  }
 
 
   return (
