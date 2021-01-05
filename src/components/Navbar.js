@@ -6,12 +6,13 @@ const NavBar = props => {
   return (
     <Navigation>
       <Link to="/">Log In</Link>
-      <Link to="/" onClick={handleLogout}>
+      <Link to="/" >
         Log Out
       </Link>
       <Link to="/signup">Sign Up</Link>
       <Link to="/profile">Profile</Link>
-    </Navigation>
+      <Link to='/'>Water My Plants</Link>
+      </Navigation>
   );
 }
 

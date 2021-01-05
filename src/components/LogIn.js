@@ -91,7 +91,7 @@ function LoginForm() {
   const validate = e => {
     e.persist();
     yup.reach(schema, e.target.name).validate(e.target.value)
-      .then(validate => setErrors({ ...errors, [e.target.name]: '' }))
+      .then(valide => setErrors({ ...errors, [e.target.name]: '' }))
       .catch(err => setErrors({ ...errors, [e.target.name]: err.errors[0] }));
   }
 
