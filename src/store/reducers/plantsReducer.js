@@ -1,6 +1,7 @@
 import {
   GET_PLANTS,
   ADD_PLANT,
+  START_UPLOAD,
   PLANTS_LOADING,
   PLANTS_ERROR,
   GET_PLANT,
@@ -11,6 +12,7 @@ const initialState = {
   plants: [],
   plant: {},
   isLoading: false,
+  isUploading: false,
   isError: false,
   error: "",
 };
@@ -21,6 +23,11 @@ export function plantsReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+      };
+    case START_UPLOAD:
+      return {
+        ...state,
+        isUploading: true,
       };
     case GET_PLANTS:
       return {
@@ -46,12 +53,17 @@ export function plantsReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+        isUploading: false,
         isError: true,
         error: action.payload,
       };
     case ADD_PLANT:
-      console.log("NEW PLANT: ", action.payload);
-      return state;
+      return {
+        ...state,
+        isUploading: false,
+        isError: false,
+        error: "",
+      };
     case DELETE_PLANT:
       return {
         ...state,

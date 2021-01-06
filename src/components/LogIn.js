@@ -88,7 +88,7 @@ function LogIn(props) {
         props.login(credentials);
         history.push("/plants");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err.message));
   };
 
   const handleChange = (e) => {

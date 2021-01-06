@@ -31,11 +31,7 @@ const EditPlant = (props) => {
     history.push(`/plants/${id}`);
   };
 
-  const handleH2OHint = (e) => {
-    e.preventDefault();
-    console.log(plant.nickname);
-    props.getH2OHint(plant.nickname);
-  };
+
 
   return (
     <div style={{ marginTop: "100px" }}>
@@ -74,7 +70,7 @@ const EditPlant = (props) => {
           value={plant.water_frequency}
           onChange={handleChange}
         />
-        <button onClick={handleH2OHint}>Give me a hint!</button>
+        
         <label htmlFor="image">Image URL</label>
         <input
           type="text"
@@ -96,4 +92,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { editPlant, getH2OHint })(EditPlant);
+export default connect(mapStateToProps, { editPlant })(EditPlant);

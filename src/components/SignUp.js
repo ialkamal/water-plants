@@ -98,7 +98,7 @@ const SignUp = () => {
         console.log(res.data);
         history.push("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err.message));
 
     setCredentials(initialCredentials);
   };

@@ -5,8 +5,8 @@ import { NavLink } from "react-router-dom";
 
 const Plants = (props) => {
   useEffect(() => {
-    props.getPlants();
-  }, []);
+    if (!props.isUploading) props.getPlants();
+  }, [props.isUploading]);
 
   const handleDelete = (id) => {
     props.deletePlant(id);
@@ -15,7 +15,7 @@ const Plants = (props) => {
   return (
     <div style={{ marginTop: "100px" }}>
       <h2>Plants</h2>
-      {props.isLoading ? (
+      {props.isLoading || props.isUploading ? (
         <pre>Loading...</pre>
       ) : (
         <>
@@ -72,6 +72,7 @@ const mapStateToProps = (state) => {
   return {
     plants: state.plants.plants,
     isLoading: state.plants.isLoading,
+    isUploading: state.plants.isUploading,
     isError: state.plants.isError,
     error: state.plants.error,
   };
