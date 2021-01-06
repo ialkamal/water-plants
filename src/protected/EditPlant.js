@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { editPlant } from "../store/actions";
+import { editPlant, getH2OHint } from "../store/actions";
 
 const EditPlant = (props) => {
   const initialPlant = JSON.parse(window.localStorage.getItem("plant"));
@@ -31,10 +31,25 @@ const EditPlant = (props) => {
     history.push(`/plants/${id}`);
   };
 
+  const handleH2OHint = (e) => {
+    e.preventDefault();
+    console.log(plant.nickname);
+    props.getH2OHint(plant.nickname);
+  };
+
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <h2>Edit Plant</h2>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          width: "300px",
+          alignItems: "center",
+          flexFlow: "column wrap",
+          margin: "10px auto",
+        }}
+      >
         <label htmlFor="nickname">Nickname</label>
         <input
           type="text"
@@ -59,6 +74,7 @@ const EditPlant = (props) => {
           value={plant.water_frequency}
           onChange={handleChange}
         />
+        <button onClick={handleH2OHint}>Give me a hint!</button>
         <label htmlFor="image">Image URL</label>
         <input
           type="text"
@@ -80,4 +96,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { editPlant })(EditPlant);
+export default connect(mapStateToProps, { editPlant, getH2OHint })(EditPlant);

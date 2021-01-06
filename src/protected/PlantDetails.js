@@ -14,24 +14,36 @@ const PlantDetails = (props) => {
   return (
     <div style={{ marginTop: "100px" }}>
       <h2>Plant Details</h2>
-      <div
-        style={{
-          display: "flex",
-          margin: "20px auto",
-          justifyContent: "center",
-        }}
-      >
-        <img src={props.plant.image} alt={props.plant.nickname} height="300" />
-        <div style={{ marginLeft: "30px", textAlign: "left" }}>
-          <p>Nickname: {props.plant.nickname}</p>
-          <p>Binomial: {props.plant.binomial}</p>
-          <p>Watering Frequency: {props.plant.water_frequency} times / month</p>
-          <button onClick={() => history.push(`/plants/${id}/edit`)}>
-            Edit
-          </button>
-          <button onClick={() => history.push("/plants")}>Back</button>
+      {props.isLoading ? (
+        <pre>Loading...</pre>
+      ) : props.isError ? (
+        <pre>Error: {props.error}</pre>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            margin: "20px auto",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={props.plant.image}
+            alt={props.plant.nickname}
+            height="300"
+          />
+          <div style={{ marginLeft: "30px", textAlign: "left" }}>
+            <p>Nickname: {props.plant.nickname}</p>
+            <p>Binomial: {props.plant.binomial}</p>
+            <p>
+              Watering Frequency: {props.plant.water_frequency} times / month
+            </p>
+            <button onClick={() => history.push(`/plants/${id}/edit`)}>
+              Edit
+            </button>
+            <button onClick={() => history.push("/plants")}>Back</button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -39,6 +51,9 @@ const PlantDetails = (props) => {
 const mapStateToProps = (state) => {
   return {
     plant: state.plants.plant,
+    isLoading: state.plants.isLoading,
+    isError: state.plants.isError,
+    error: state.plants.error,
   };
 };
 

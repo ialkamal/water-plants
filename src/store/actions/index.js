@@ -70,7 +70,7 @@ export const getPlants = () => {
 export const addPlant = (plant) => {
   return (dispatch) => {
     //use axiosWithAuth for endpoint once done
-    dispatch({ type: PLANTS_LOADING });
+
     axiosWithAuth()
       .post("/api/plants", plant)
       .then(
@@ -107,9 +107,20 @@ export const editPlant = (plant) => {
 export const getPlant = (id) => {
   return (dispatch) => {
     //use axiosWithAuth for endpoint once done
+    dispatch({ type: PLANTS_LOADING });
     axiosWithAuth()
       .get(`/api/plants/${id}`)
       .then((res) => dispatch({ type: GET_PLANT, payload: res.data.plant }))
+      .catch((err) => dispatch({ type: PLANTS_ERROR, payload: err.message }));
+  };
+};
+
+export const getH2OHint = (nickname) => {
+  return (dispatch) => {
+    //use axiosWithAuth for endpoint once done
+    axiosWithAuth()
+      .get(`/api/usda/search/?commonName=${nickname}`)
+      .then((res) => console.log(res.data.results))
       .catch((err) => dispatch({ type: PLANTS_ERROR, payload: err.message }));
   };
 };
