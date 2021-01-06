@@ -12,11 +12,26 @@ const PlantDetails = (props) => {
   }, []);
 
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <h2>Plant Details</h2>
-      <pre>{JSON.stringify(props.plant, null, 2)}</pre>
-      <button onClick={() => history.push(`/plants/${id}/edit`)}>Edit</button>
-      <button onClick={() => history.push("/plants")}>Back</button>
+      <div
+        style={{
+          display: "flex",
+          margin: "20px auto",
+          justifyContent: "center",
+        }}
+      >
+        <img src={props.plant.image} alt={props.plant.nickname} height="300" />
+        <div style={{ marginLeft: "30px", textAlign: "left" }}>
+          <p>Nickname: {props.plant.nickname}</p>
+          <p>Binomial: {props.plant.binomial}</p>
+          <p>Watering Frequency: {props.plant.water_frequency} times / month</p>
+          <button onClick={() => history.push(`/plants/${id}/edit`)}>
+            Edit
+          </button>
+          <button onClick={() => history.push("/plants")}>Back</button>
+        </div>
+      </div>
     </div>
   );
 };

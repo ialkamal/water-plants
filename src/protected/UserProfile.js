@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { getProfile } from "../store/actions";
 
 const UserProfile = (props) => {
@@ -11,9 +11,18 @@ const UserProfile = (props) => {
   }, []);
 
   return (
-    <div>
+    <div style={{ marginTop: "200px" }}>
       <h2>Profile</h2>
-      <pre>{JSON.stringify(props.user, null, 2)}</pre>
+      {props.isLoading ? (
+        <pre>Loading...</pre>
+      ) : props.isError ? (
+        <pre>Error: {props.error}</pre>
+      ) : (
+        <>
+          <p>Username: {props.user.username}</p>
+          <p>Phone: {props.user.phone}</p>
+        </>
+      )}
       <button onClick={() => history.push(`/profile/edit`)}>Edit</button>
       <button onClick={() => history.goBack()}>Back</button>
     </div>
@@ -23,6 +32,9 @@ const UserProfile = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.users.user,
+    isLoading: state.users.isLoading,
+    isError: state.users.isError,
+    error: state.users.error,
   };
 };
 
