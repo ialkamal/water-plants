@@ -32,7 +32,7 @@ const EditProfile = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //save to the server
-    props.editProfile(user.phone);
+    props.editProfile(user);
     if (password.oldPassword !== "" && password.password !== "") {
       props.editPassword(password);
       setPassword(initialPassword);
@@ -42,9 +42,18 @@ const EditProfile = (props) => {
   };
 
   return (
-    <div>
-      <h2>Edit User Profile</h2>
-      <form onSubmit={handleSubmit}>
+    <div style={{ marginTop: "200px" }}>
+      <h2>Edit Profile</h2>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          width: "200px",
+          alignItems: "center",
+          flexDirection: "column",
+          margin: "20px auto",
+        }}
+      >
         <label htmlFor="username">Username</label>
         <input
           type="text"
@@ -88,6 +97,8 @@ const EditProfile = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.users.user,
+    isError: state.users.isError,
+    error: state.users.error,
   };
 };
 

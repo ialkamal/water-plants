@@ -37,7 +37,7 @@ const Navbar = (props) => {
       </NavLink>
       <NavLink to="/signup">Sign Up</NavLink>
       <NavLink to="/profile">Profile</NavLink>
-      <NavLink to="/">Water My Plants</NavLink>
+      <NavLink to="/plants">Water My Plants</NavLink>
     </Navigation>
   );
 };

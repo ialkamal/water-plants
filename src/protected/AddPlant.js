@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { editPlant, addPlant } from "../store/actions";
+import { editPlant, addPlant, getH2OHint } from "../store/actions";
 
 const AddPlant = (props) => {
   const initialState = {
@@ -12,6 +12,7 @@ const AddPlant = (props) => {
   };
 
   const [plant, setPlant] = useState(initialState);
+  const [file, setFile] = useState("");
 
   const history = useHistory();
 
@@ -21,21 +22,39 @@ const AddPlant = (props) => {
   };
 
   const handleChange = (e) => {
-    setPlant({ ...plant, [e.target.name]: e.target.value });
+    setPlant({
+      ...plant,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //save to the server
-    props.addPlant(plant);
+    props.addPlant(plant, file);
     setPlant(initialState);
     history.push("/plants");
   };
 
+  const handleH2OHint = (e) => {
+    e.preventDefault();
+    console.log(plant.nickname);
+    props.getH2OHint(plant.nickname);
+  };
+
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}>
       <h2>Add Plant</h2>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          width: "300px",
+          alignItems: "center",
+          flexFlow: "column wrap",
+          margin: "10px auto",
+        }}
+      >
         <label htmlFor="nickname">Nickname</label>
         <input
           type="text"
@@ -60,13 +79,12 @@ const AddPlant = (props) => {
           value={plant.water_frequency}
           onChange={handleChange}
         />
+        <button onClick={handleH2OHint}>Give me a hint!</button>
         <label htmlFor="image">Image</label>
         <input
-          type="text"
-          id="image"
-          name="image"
-          value={plant.image}
-          onChange={handleChange}
+          type="file"
+          name="file"
+          onChange={(e) => setFile(e.target.files[0])}
         />
         <button type="submit">Add</button>
         <button onClick={handleCancel}>Cancel</button>
@@ -81,4 +99,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { editPlant, addPlant })(AddPlant);
+export default connect(mapStateToProps, { editPlant, addPlant, getH2OHint })(
+  AddPlant
+);
