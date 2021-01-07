@@ -103,7 +103,7 @@ function LogIn(props) {
       </header>
       <Form className="login-form" onSubmit={handleSubmit}>
         <FormGroup>
-          <Label>Username </Label>
+          
           <Input
             type="text"
             name="username"
