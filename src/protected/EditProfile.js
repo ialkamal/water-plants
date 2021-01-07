@@ -94,7 +94,6 @@ const EditProfile = (props) => {
   border-radius: 3px;
 `
 
- 
 
   return (
     <FormContainer>
@@ -111,10 +110,8 @@ const EditProfile = (props) => {
       onChange={null} />
       <img
        ref={null}
-       
        />
-
-             
+        
         <Label  htmlFor="username">Username</Label>
         <Input
           type="text"
