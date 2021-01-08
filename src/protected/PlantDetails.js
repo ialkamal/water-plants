@@ -8,13 +8,13 @@ const PlantDetails = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    props.getPlant(id);
-  }, []);
+    if (!props.isUploading) props.getPlant(id);
+  }, [props.isUploading]);
 
   return (
     <div style={{ marginTop: "100px" }}>
       <h2>Plant Details</h2>
-      {props.isLoading ? (
+      {props.isLoading || props.isUploading  ? (
         <pre>Loading...</pre>
       ) : props.isError ? (
         <pre>Error: {props.error}</pre>
@@ -52,6 +52,7 @@ const mapStateToProps = (state) => {
   return {
     plant: state.plants.plant,
     isLoading: state.plants.isLoading,
+    isUploading: state.plants.isUploading,
     isError: state.plants.isError,
     error: state.plants.error,
   };

@@ -127,12 +127,45 @@ export const deletePlant = (id) => {
   };
 };
 
-export const editPlant = (plant) => {
+export const editPlant = (plant, file) => {
   return (dispatch) => {
-    axiosWithAuth()
-      .put(`/api/plants/${plant.id}`, plant)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "tabmei7f");
+      dispatch({ type: START_UPLOAD });
+      axios
+        .post("https://api.Cloudinary.com/v1_1/ialkamal/image/upload", formData)
+        .then((res) => res.data.secure_url)
+        .then((url) =>
+          axiosWithAuth()
+            .put(`/api/plants/${plant.id}`, { ...plant, image: url })
+            .then((res) => res)
+            .catch((err) => alert(err.message))
+        )
+        .then((res) => {
+          dispatch({
+            type: ADD_PLANT,
+          });
+        })
+        .catch((err) => {
+          alert(err.message);
+          dispatch({ type: PLANTS_ERROR, payload: err.message });
+        });
+    } else {
+      dispatch({ type: START_UPLOAD });
+      axiosWithAuth()
+        .put(`/api/plants/${plant.id}`, plant)
+        .then((res) =>
+          dispatch({
+            type: ADD_PLANT,
+          })
+        )
+        .catch((err) => {
+          alert(err.message);
+          dispatch({ type: PLANTS_ERROR, payload: err.message });
+        });
+    }
   };
 };
 
