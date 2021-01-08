@@ -198,6 +198,6 @@ export const getH2OHint = (nickname) => {
           );
         }
       })
-      .catch((err) => dispatch({ type: PLANTS_ERROR, payload: err.message }));
+      .catch((err) => alert(err.message, "Most probably nickname is missing!"));
   };
 };
