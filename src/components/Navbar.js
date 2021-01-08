@@ -13,7 +13,7 @@ const Navigation = styled.nav`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  height: 9rem;
+  height: 5rem;
   color: #fffaf0;
   a {
     text-decoration: none;
