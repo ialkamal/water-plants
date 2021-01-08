@@ -7,6 +7,7 @@ const EditPlant = (props) => {
   const initialPlant = JSON.parse(window.localStorage.getItem("plant"));
 
   const [plant, setPlant] = useState(initialPlant);
+  const [file, setFile] = useState("");
 
   const history = useHistory();
   const { id } = useParams();
@@ -26,12 +27,10 @@ const EditPlant = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //save to the server
-    props.editPlant(plant);
+    props.editPlant(plant, file);
     //setPlant();
     history.push(`/plants/${id}`);
   };
-
-
 
   return (
     <div style={{ marginTop: "100px" }}>
@@ -70,15 +69,20 @@ const EditPlant = (props) => {
           value={plant.water_frequency}
           onChange={handleChange}
         />
-        
+
         <label htmlFor="image">Image URL</label>
         <input
+          type="file"
+          name="file"
+          onChange={(e) => setFile(e.target.files[0])}
+        />
+        {/* <input
           type="text"
           id="image"
           name="image"
           value={plant.image}
           onChange={handleChange}
-        />
+        /> */}
         <button type="submit">Save</button>
         <button onClick={handleCancel}>Cancel</button>
       </form>
