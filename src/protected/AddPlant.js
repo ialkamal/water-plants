@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { editPlant, addPlant, getH2OHint } from "../store/actions";
 import styled, {css} from 'styled-components'
+import * as Yup from 'yup'
 
 const sharedStyles = css`
-  backgroundcolor: #eee;
   height: 40px;
-  border-radius: 5px;
-  border: 3px solid #45b649;
+  border-radius: 12px;
+  border: 3px solid #9cc799;
   margin: 10px 0;
   padding: 20px;
   box-sizing: border-box;
@@ -27,7 +27,7 @@ const StyledForm = styled.form`
   max-width: 500px;
   padding: 2.5rem;
   border-radius: 20px;
-  background-color: rgba(250, 255, 209, 0.97);
+  background-color: #9cc799;
   box-sizing: border-box;
   box-shadow: 0px 0px 20px rgba(138, 138, 138, 0.5);
 `;
@@ -38,21 +38,76 @@ width 100%;
 ${sharedStyles}
 &:focus{
   outline:none;
+  border: 3px solid #45b649;
 }`;
+
+const StyledUpload = styled.label`
+
+
+    cursor: pointer;
+  background: #45b649;
+  display:block;
+  width:100%;
+  height: 40px;
+  border-radius: 12px;
+  border: 3px solid #9cc799;
+  margin: 10px 0;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-weight: 600;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+
+  &:focus{
+    outline:none;
+    transition: ease-in .2s;
+    border: 3px solid #fff;
+  }
+
+
+`;
+
+const Hidden = styled.input`
+display:none;`
 
 const StyledButton = styled.button`
   padding: 1rem;
   background-color: #45b649;
   border-radius: 100px;
-  width: 50%;
+  margin: 20px 10px;
+  width: 25%;
   border: none;
   color: white;
   font-weight: 800;
+  cursor:pointer;
+
+  &:hover {
+    background:white;
+    color:#45b649;
+    transition: ease-in .2s;
+  }
 
   &:disabled {
-    opacity: 0.3;
+    opacity: 0.5;
+    cursor:default;
+
+    &:hover {
+      background:#45b649;
+      color:white;
+      transition: ease-in .2s;
+    }
+
   }
+  
 `;
+const ErrorMessage = styled.p`
+  color:red;
+  font-size:1rem;
+  margin:20px;
+  height:1rem;`
 
 const AddPlant = (props) => {
   const initialState = {
@@ -62,8 +117,35 @@ const AddPlant = (props) => {
     image: "",
   };
 
+
   const [plant, setPlant] = useState(initialState);
   const [file, setFile] = useState("");
+  const [errors,setErrors]=useState({
+    nickname: "",
+    binomial: "",
+    water_frequency: "",
+    image: "",
+  });
+  const[disabled,setDisabled]=useState(true)
+
+  const schema = Yup.object().shape({
+    nickname: Yup.string("Must be a valid string")
+      .required("Nickname is required")
+      .min(2,'Username must be at least 2 characters long'),
+    binomial: Yup.string("Must be a valid string")
+      .required("Binomial is required")
+      .min(2,'Username must be at least 2 characters long'),
+    water_frequency: Yup.number()
+      .required('Must be a postive number value')
+      .positive('Must be a postive number value')
+      .integer('Must be a postive number value'),
+    image:Yup.mixed().default('n/a')
+  })
+
+  const setFormErrors = (name, value) => {
+    Yup.reach(schema,name).validate(value)
+        .then(()=>setErrors({...errors, [name]:''}))
+        .catch((err)=>setErrors({...errors, [name]:err.errors[0]}))}
 
   const history = useHistory();
 
@@ -77,7 +159,12 @@ const AddPlant = (props) => {
       ...plant,
       [e.target.name]: e.target.value,
     });
+    setFormErrors(e.target.name,e.target.value)
   };
+
+  useEffect(() => {
+    schema.isValid(plant).then((valid) => setDisabled(!valid));
+  }, [plant]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -130,17 +217,28 @@ const AddPlant = (props) => {
           value={plant.water_frequency}
           onChange={handleChange}
         />
-        <button onClick={handleH2OHint}>Give me a hint!</button>
+        <button onClick={handleH2OHint}>Give me a hint!</button> <br/>
         
-        <label htmlFor="image">Image</label>
+        <label htmlFor="image">Upload Image</label>
+
         <input
           type="file"
-          name="file"
+          name="image"
+          id='image'
           onChange={(e) => setFile(e.target.files[0])}
         />
-        <button type="submit">Add</button>
-        <button onClick={handleCancel}>Cancel</button>
+        
+
+        
+        <StyledButton type="submit" disabled={disabled}>Add</StyledButton>
+        <StyledButton onClick={handleCancel}>Cancel</StyledButton>
       </StyledForm>
+
+      <ErrorMessage>
+          <div>{errors.nickname}</div>
+          <div>{errors.binomial}</div>
+          <div>{errors.water_frequency}</div>
+        </ErrorMessage>
 
       </FormWrapper>
     </div>
