@@ -173,7 +173,6 @@ const AddPlant = (props) => {
 
   const handleH2OHint = (e) => {
     e.preventDefault();
-    console.log(plant.nickname);
     props.getH2OHint(plant.nickname);
   };
 

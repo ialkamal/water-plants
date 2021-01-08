@@ -1,5 +1,6 @@
 import axios from "axios";
 import axiosWithAuth from "../../utils/axiosWithAuth";
+import calculateWaterFrequency from "../../utils/calculateWaterFrequency";
 
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
@@ -184,8 +185,19 @@ export const getH2OHint = (nickname) => {
   return (dispatch) => {
     //use axiosWithAuth for endpoint once done
     axiosWithAuth()
-      .get(`/api/usda/search/?commonName=${nickname}`)
-      .then((res) => console.log(res.data.results))
+      .get(`/api/usda/filtered-search/?commonName=${nickname}`)
+      .then((res) => {
+        if (res.data.result === "zero qualifying results")
+          alert("Sorry! no hint today");
+        else {
+          const waterFrequency = calculateWaterFrequency(res.data.result);
+          alert(
+            `The recommended watering frequency is ${waterFrequency} ${
+              waterFrequency === 1 ? "time" : "times"
+            } per month`
+          );
+        }
+      })
       .catch((err) => dispatch({ type: PLANTS_ERROR, payload: err.message }));
   };
 };
