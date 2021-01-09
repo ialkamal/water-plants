@@ -211,7 +211,7 @@ const EditPlant = (props) => {
           value={plant.image}
           onChange={handleChange}
         /> */}
-        <StyledButton type="submit">Update</StyledButton>
+        <StyledButton type="submit" disabled={disabled}>Update</StyledButton>
         <StyledButton onClick={handleCancel}>Cancel</StyledButton>
     
         </StyledForm>
