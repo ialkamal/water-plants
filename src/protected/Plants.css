@@ -1,0 +1,18 @@
+.AddPlant {
+  padding: 1rem;
+  background-color: #45b649;
+  border-radius: 100px;
+  margin: 20px 10px;
+  width: 25%;
+  border: none;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.AddPlant:hover {
+  background: #fffaf0;
+  color: #45b649;
+  transition: ease-in 0.2s;
+}

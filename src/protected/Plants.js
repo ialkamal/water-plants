@@ -2,6 +2,20 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getPlants, deletePlant } from "../store/actions";
 import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+import "./Plants.css";
+
+const Button = styled.button`
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border-radius: 3px;
+  display: flex;
+  text-align: center;
+  width: 95px;
+  margin-left: 48%;
+  margin-right: 45%;
+`;
 
 const Plants = (props) => {
   useEffect(() => {
@@ -14,12 +28,14 @@ const Plants = (props) => {
 
   return (
     <div style={{ marginTop: "100px" }}>
-      <h2>Plants</h2>
+      <h2 style={{ marginBottom: "3rem" }}>Plants</h2>
       {props.isLoading || props.isUploading ? (
         <pre>Loading...</pre>
       ) : (
         <>
-          <NavLink to="/plants/add">Add Plant</NavLink>
+          <NavLink className="AddPlant" to="/plants/add">
+            Add Plant
+          </NavLink>
           <div
             style={{
               display: "flex",
@@ -45,17 +61,30 @@ const Plants = (props) => {
                   >
                     <img src={plant.image} alt={plant.nickname} height="300" />
                     <div style={{ marginLeft: "30px", textAlign: "left" }}>
-                      <NavLink to={`/plants/${plant.id}`}>
-                        <p>Nickname: {plant.nickname}</p>
+                      <NavLink
+                        style={{
+                          textDecoration: "none",
+                          fontWeight: "500",
+                          fontSize: "1.2rem",
+                          color: "#45b649",
+                        }}
+                        to={`/plants/${plant.id}`}
+                      >
+                        <p>{plant.nickname}</p>
                       </NavLink>
-                      <p>Binomial: {plant.binomial}</p>
                       <p>
-                        Watering Frequency: {plant.water_frequency} times /
-                        month
+                        <span style={{ fontWeight: "500" }}>Binomial:</span>{" "}
+                        {plant.binomial}
                       </p>
-                      <button onClick={() => handleDelete(plant.id)}>
+                      <p>
+                        <span style={{ fontWeight: "500" }}>
+                          H2O Frequency:
+                        </span>{" "}
+                        {plant.water_frequency} 💦 / month
+                      </p>
+                      <Button onClick={() => handleDelete(plant.id)}>
                         Delete
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
