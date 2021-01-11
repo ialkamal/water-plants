@@ -31,13 +31,13 @@ const Navbar = (props) => {
 
   return (
     <Navigation>
-      <NavLink to="/">Log In</NavLink>
+      <NavLink to="/plants">Water My Plants</NavLink>
+      <NavLink to="/profile">Profile</NavLink>
+      <NavLink to="/signup">Sign Up</NavLink>
       <NavLink to="/" onClick={handleLogout}>
         Log Out
       </NavLink>
-      <NavLink to="/signup">Sign Up</NavLink>
-      <NavLink to="/profile">Profile</NavLink>
-      <NavLink to="/plants">Water My Plants</NavLink>
+      <NavLink to="/">Log In</NavLink>
     </Navigation>
   );
 };

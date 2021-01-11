@@ -103,7 +103,6 @@ function LogIn(props) {
       </header>
       <Form className="login-form" onSubmit={handleSubmit}>
         <FormGroup>
-          
           <Input
             type="text"
             name="username"
@@ -140,7 +139,14 @@ function LogIn(props) {
         <div className="text-center pt-3">
           Don't have an account?
           <br></br>
-          <a href="/SignUp" style={{ textDecoration: "none" }}>
+          <a
+            href="/SignUp"
+            style={{
+              textDecoration: "none",
+              color: "#45b649",
+              fontWeight: "500",
+            }}
+          >
             Sign Up
           </a>
         </div>
