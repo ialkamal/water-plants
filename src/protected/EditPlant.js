@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { editPlant, getH2OHint } from "../store/actions";
-import * as Yup from 'yup'
-import styled, {css} from 'styled-components'
-
+import * as Yup from "yup";
+import styled, { css } from "styled-components";
 
 const sharedStyles = css`
   height: 40px;
@@ -81,7 +80,7 @@ const StyledButton = styled.button`
   color: white;
   font-weight: 800;
   cursor: pointer;
-  outline:none;
+  outline: none;
 
   &:hover {
     background: white;
@@ -141,6 +140,10 @@ const EditPlant = (props) => {
       .catch((err) => setErrors({ ...errors, [name]: err.errors[0] }));
   };
 
+  useEffect(() => {
+    schema.isValid(plant).then((valid) => setDisabled(!valid));
+  }, [plant]);
+
   const history = useHistory();
   const { id } = useParams();
 
@@ -167,53 +170,52 @@ const EditPlant = (props) => {
 
   return (
     <div style={{ marginTop: "100px" }}>
-     
-     <FormWrapper>
-      <h2>Edit Plant</h2>
+      <FormWrapper>
+        <h2>Edit Plant</h2>
 
-      <StyledForm onSubmit={handleSubmit}>
+        <StyledForm onSubmit={handleSubmit}>
+          <StyledInput
+            type="text"
+            id="nickname"
+            placeholder="Nickname"
+            name="nickname"
+            value={plant.nickname}
+            onChange={handleChange}
+          />
+          <StyledInput
+            type="text"
+            id="binomial"
+            name="binomial"
+            placeholder="Binomial"
+            value={plant.binomial}
+            onChange={handleChange}
+          />
+          <StyledInput
+            type="text"
+            id="water_frequency"
+            name="water_frequency"
+            placeholder="Water Frequency"
+            value={plant.water_frequency}
+            onChange={handleChange}
+          />
 
-        <StyledInput
-          type="text"
-          id="nickname"
-          placeholder="Nickname"
-          name="nickname"
-          value={plant.nickname}
-          onChange={handleChange}
-        />
-        <StyledInput
-          type="text"
-          id="binomial"
-          name="binomial"
-          placeholder="Binomial"
-          value={plant.binomial}
-          onChange={handleChange}
-        />
-        <StyledInput
-          type="text"
-          id="water_frequency"
-          name="water_frequency"
-          placeholder="Water Frequency"
-          value={plant.water_frequency}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="image">Image URL</label>
-        <input
-          type="file"
-          name="file"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-        {/* <input
+          <label htmlFor="image">Image URL</label>
+          <input
+            type="file"
+            name="file"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+          {/* <input
           type="text"
           id="image"
           name="image"
           value={plant.image}
           onChange={handleChange}
         /> */}
-        <StyledButton type="submit" disabled={disabled}>Update</StyledButton>
-        <StyledButton onClick={handleCancel}>Cancel</StyledButton>
-    
+          <StyledButton type="submit" disabled={disabled}>
+            Update
+          </StyledButton>
+          <StyledButton onClick={handleCancel}>Cancel</StyledButton>
         </StyledForm>
 
         <ErrorMessage>
@@ -221,7 +223,6 @@ const EditPlant = (props) => {
           <p>{errors.binomial}</p>
           <p>{errors.water_frequency}</p>
         </ErrorMessage>
-
       </FormWrapper>
     </div>
   );
